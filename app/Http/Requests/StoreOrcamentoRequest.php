@@ -11,7 +11,7 @@ class StoreOrcamentoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreOrcamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'id_cliente' => ['bail', 'required', 'integer'],
+            'id_vendedor' => ['bail', 'required', 'integer'],
+
+            'data' => ['required', 'string', 'date'],
+            'hora' => ['required', 'string', 'time'],
+            'valor' => ['required', 'decimal:2'],
         ];
     }
 }

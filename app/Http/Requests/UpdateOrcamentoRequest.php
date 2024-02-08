@@ -11,7 +11,7 @@ class UpdateOrcamentoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateOrcamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'data' => ['required', 'string', 'date'],
+            'hora' => ['required', 'string', 'time'],
+            'valor' => ['required', 'decimal:2'],
         ];
     }
 }
