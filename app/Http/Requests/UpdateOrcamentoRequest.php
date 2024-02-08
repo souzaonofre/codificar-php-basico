@@ -22,10 +22,10 @@ class UpdateOrcamentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data' => ['required', 'string', 'date'],
-            'hora' => ['required', 'string', 'time'],
-            'descricao' => ['required', 'string', 'min:3'],
-            'valor' => ['required', 'decimal:2'],
+            'data' => ['string', 'date_format:d/m/Y'],
+            'hora' => ['string', 'date_format:H:i'],
+            'descricao' => ['string', 'min:5', 'max:2048'],
+            'valor' => ['decimal:2'],
         ];
     }
 }

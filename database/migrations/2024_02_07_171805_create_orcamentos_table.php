@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('data')->default(Date::today(config('app.timezone'))->format('Y-m-d'));;
             $table->time('hora')->default(Date::today(config('app.timezone'))->format('H:i:s'));
 
-            $table->string('descricao');
+            $table->text('descricao');
 
             $table->double('valor', 20, 2);
 

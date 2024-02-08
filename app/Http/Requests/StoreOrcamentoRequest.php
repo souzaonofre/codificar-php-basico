@@ -25,10 +25,11 @@ class StoreOrcamentoRequest extends FormRequest
             'id_cliente' => ['bail', 'required', 'integer'],
             'id_vendedor' => ['bail', 'required', 'integer'],
 
-            'data' => ['required', 'string', 'date'],
-            'hora' => ['required', 'string', 'time'],
+            'data' => ['required', 'string', 'date_format:d/m/Y'],
+            'hora' => ['required', 'string', 'date_format:H:i'],
 
-            'descricao' => ['required', 'string', 'min:3'],
+            'descricao' => ['required', 'string', 'min:5', 'max:2048'],
+
             'valor' => ['required', 'decimal:2'],
         ];
     }
