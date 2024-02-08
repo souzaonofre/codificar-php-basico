@@ -27,6 +27,8 @@ class StoreOrcamentoRequest extends FormRequest
 
             'data' => ['required', 'string', 'date'],
             'hora' => ['required', 'string', 'time'],
+
+            'descricao' => ['required', 'string', 'min:3'],
             'valor' => ['required', 'decimal:2'],
         ];
     }

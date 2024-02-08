@@ -24,6 +24,7 @@ class UpdateOrcamentoRequest extends FormRequest
         return [
             'data' => ['required', 'string', 'date'],
             'hora' => ['required', 'string', 'time'],
+            'descricao' => ['required', 'string', 'min:3'],
             'valor' => ['required', 'decimal:2'],
         ];
     }

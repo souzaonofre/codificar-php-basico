@@ -22,6 +22,7 @@ class Orcamento extends Model
         'id_vendedor',
         'data',
         'hora',
+        'descricao',
         'valor'
     ];
 
