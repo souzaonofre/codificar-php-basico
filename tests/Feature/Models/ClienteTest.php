@@ -1,7 +1,15 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use App\Models\Cliente;
 
-    $response->assertStatus(200);
+test('criar e verificar dados vendedor', function () {
+    $cliente = Cliente::query()->create([
+        'nome' => fake()->name(),
+        'telefone' => fake()->unique()->phoneNumber(),
+        'email' => fake()->unique()->safeEmail(),
+    ]);
+
+    expect($cliente)->toBeInstanceOf(Cliente::class);
+
+    expect($cliente->id)->toBeInt();
 });

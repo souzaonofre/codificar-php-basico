@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->user = \App\Models\User::query()->create([
+    $this->user = User::query()->create([
         'name' => 'Vendedor1 User Test',
         'email' => 'user@teste.com',
         'password' => Hash::make('teste1234'),
