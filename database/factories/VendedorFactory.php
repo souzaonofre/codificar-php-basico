@@ -17,8 +17,7 @@ class VendedorFactory extends Factory
     public function definition(): array
     {
         return [
-            'nome' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'telefone' => fake()->unique()->phoneNumber(),
         ];
     }
 }

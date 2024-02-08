@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+#use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class VendedorSeeder extends Seeder
 {
@@ -12,6 +13,13 @@ class VendedorSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Vendedor::factory(10)->create();
+        $users = \App\Models\User::all();
+
+        foreach ($users as $user) {
+            \App\Models\Vendedor::factory()->create([
+                'id_user' => $user->id,
+                'alias' => Str::wordwrap($user->name, 1),
+            ]);
+        }
     }
 }

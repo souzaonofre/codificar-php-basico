@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('vendedores', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('email')->nullable();
+            $table->foreignId('id_user');
+
+            $table->string('alias');
+            $table->string('telefone');
+
+            $table->index('id_user', 'idx_user');
             $table->timestamps();
         });
     }
