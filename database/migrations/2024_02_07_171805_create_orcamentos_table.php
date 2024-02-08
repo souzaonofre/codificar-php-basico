@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('id_vendedor');
 
             $table->date('data')->default(Date::today(config('app.timezone'))->format('Y-m-d'));;
-            $table->time('hora')->default(Date::today(config('app.timezone'))->format('H:m:s'));
+            $table->time('hora')->default(Date::today(config('app.timezone'))->format('H:i:s'));
 
             $table->double('valor', 20, 2);
 
