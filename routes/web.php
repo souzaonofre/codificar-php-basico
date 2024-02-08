@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrcamentoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,9 +32,13 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/orcamentos', function () {
-    return Inertia::render('Orcamentos');
-})->middleware(['auth', 'verified'])->name('orcamentos');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/orcamentos', [OrcamentoController::class, 'index'])
+        ->name('orcamentos');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

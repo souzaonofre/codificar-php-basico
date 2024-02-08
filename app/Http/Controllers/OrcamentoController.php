@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Orcamento;
 use App\Http\Requests\StoreOrcamentoRequest;
 use App\Http\Requests\UpdateOrcamentoRequest;
-use App\Models\Orcamento;
 
 class OrcamentoController extends Controller
 {
@@ -14,6 +15,9 @@ class OrcamentoController extends Controller
     public function index()
     {
         //
+        $orcamentos = Orcamento::all(['id', 'data', 'hora', 'descricao', 'valor'])->toArray();
+
+        return Inertia::render('Orcamentos', compact($orcamentos));
     }
 
     /**
