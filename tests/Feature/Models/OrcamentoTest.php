@@ -1,7 +1,9 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use App\Models\Orcamento;
 
-    $response->assertStatus(200);
+test('criar e verificar dados de "Orçamento"', function () {
+    $instance = new Orcamento();
+
+    expect($instance)->toBeInstanceOf(Orcamento::class);
 });

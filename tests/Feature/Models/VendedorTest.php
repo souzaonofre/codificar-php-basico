@@ -19,7 +19,7 @@ beforeEach(function () {
     ]);
 });
 
-test('criar e verificar dados vendedor', function () {
+test('criar e verificar dados de "Vendedor"', function () {
     $user = $this->user;
 
     $alias = Str::wordwrap($user->name, 1);

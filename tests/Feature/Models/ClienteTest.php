@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->cliente = Cliente::query()->create($this->clienteData);
 });
 
-test('criar e verificar dados cliente', function () {
+test('criar e verificar dados de "Cliente"', function () {
 
     expect($this->cliente)->toBeInstanceOf(Cliente::class);
 
