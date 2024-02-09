@@ -24,7 +24,7 @@ class OrcamentoController extends Controller
     public function index(Request $request)
     {
         $orcamentos = $this->serviceData->listarOrcamentos($request);
-        return Inertia::render('Orcamentos', compact($orcamentos));
+        return Inertia::render('Orcamentos', ['list' => $orcamentos]);
     }
 
     /**
