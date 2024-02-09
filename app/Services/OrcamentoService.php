@@ -10,14 +10,17 @@ use Illuminate\Http\Request;
 class OrcamentoService
 {
 
-    public function listarOrcamentos(Request $request): array
+    public function listarOrcamentos(Request $request, int $perPage = 10): array
     {
         $vendedor = $request->user()?->vendedor;
 
+        //$page = $request->integer('page', 0);
+        $cols = ['id', 'data', 'hora', 'descricao', 'valor'];
+
         $list = Orcamento::query()
             ->where('id_vendedor', $vendedor?->id)
-            ->get(['id', 'data', 'hora', 'descricao', 'valor'])
-            ->toArray();
+            ->paginate($perPage, $cols)
+            ->items();
 
         return $list;
     }
