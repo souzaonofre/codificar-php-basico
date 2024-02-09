@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Orcamento;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Date;
 
 class OrcamentoService
@@ -26,27 +28,37 @@ class OrcamentoService
 
         $cliente = $request->integer('cliente');
         if ($cliente > 0) {
-            $builder->where('cliente', $cliente);
+            $builder->where('id_cliente', $cliente);
         }
 
         $data = $request->string('data');
         if (Str::length($data) >= 8) {
-            $builder->whereDate('data', Date::createFromFormat('d/m/Y', $data)->format('Y-m-D'));
+            $data =  Date::createFromFormat('d/m/Y', $data)->format('Y-m-d');
+            $builder->where('data', $data);
         }
 
         $builder->orderBy('data', 'DESC');
 
         $cols = ['id', 'id_cliente', 'data', 'hora', 'descricao', 'valor'];
 
-        $list = $builder->paginate($perPage, $cols)
-            ->items();
+        /**
+         * @var Paginator
+         */
+        $paginate = $builder->paginate($perPage, $cols);
 
-        $list = array_map(function ($oct) {
+        $orcamentos = array_map(function ($oct) {
             $arrOct = $oct->toArray();
             $arrOct['nome_cliente'] = $oct->cliente->nome;
             return $arrOct;
-        }, $list);
+        }, $paginate->items());
 
-        return $list;
+        $viewData = [
+            'data' => $orcamentos,
+            'links' => $paginate->linkCollection()->toArray(),
+            'total' => $paginate->total(),
+            'perPage' => $perPage
+        ];
+
+        return $viewData;
     }
 }
