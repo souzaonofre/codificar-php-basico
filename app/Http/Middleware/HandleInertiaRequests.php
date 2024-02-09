@@ -31,7 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = User::query()->find($request->user()->id, ['id', 'name', 'email']);
+        $user = User::query()->find($request->user()?->id, ['id', 'name', 'email']);
         $vendedor = Vendedor::query()->where('id_user', $user?->id)->first(['nome', 'alias', 'email', 'telefone']);
 
         return [
