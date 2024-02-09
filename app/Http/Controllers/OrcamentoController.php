@@ -4,19 +4,26 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Orcamento;
+use Illuminate\Http\Request;
+use App\Services\OrcamentoService;
 use App\Http\Requests\StoreOrcamentoRequest;
 use App\Http\Requests\UpdateOrcamentoRequest;
 
 class OrcamentoController extends Controller
 {
+    protected OrcamentoService $serviceData;
+
+    public function __construct()
+    {
+        $this->serviceData = new OrcamentoService();
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $orcamentos = Orcamento::all(['id', 'data', 'hora', 'descricao', 'valor'])->toArray();
-
+        $orcamentos = $this->serviceData->listarOrcamentos($request);
         return Inertia::render('Orcamentos', compact($orcamentos));
     }
 
