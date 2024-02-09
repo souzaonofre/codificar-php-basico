@@ -62,11 +62,29 @@ import { Head } from "@inertiajs/vue3";
                                         >
                                             <thead class="bg-gray-50">
                                                 <tr>
-                                                    <th
+                                                    <!-- <th
                                                         scope="col"
                                                         class="flex items-center px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase"
                                                     >
                                                         ID
+                                                    </th> -->
+
+                                                    <th
+                                                        scope="col"
+                                                        class="px-2 py-3 text-xs font-bold text-center text-gray-500 uppercase"
+                                                    >
+                                                        <span
+                                                            class="inline-flex items-center"
+                                                        >
+                                                            Data
+                                                        </span>
+                                                    </th>
+
+                                                    <th
+                                                        scope="col"
+                                                        class="px-2 py-3 text-xs font-bold text-center text-gray-500 uppercase"
+                                                    >
+                                                        Hora
                                                     </th>
 
                                                     <th
@@ -82,32 +100,21 @@ import { Head } from "@inertiajs/vue3";
 
                                                     <th
                                                         scope="col"
-                                                        class="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase"
-                                                    >
-                                                        <span
-                                                            class="inline-flex items-center"
-                                                        >
-                                                            Data
-                                                        </span>
-                                                    </th>
-
-                                                    <th
-                                                        scope="col"
-                                                        class="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase"
-                                                    >
-                                                        Hora
-                                                    </th>
-
-                                                    <th
-                                                        scope="col"
-                                                        class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase"
+                                                        class="px-4 py-3 text-xs font-bold text-left text-gray-500 uppercase"
                                                     >
                                                         Descrição
                                                     </th>
 
                                                     <th
                                                         scope="col"
-                                                        class="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase"
+                                                        class="px-2 py-3 text-xs font-bold text-left text-gray-500 uppercase"
+                                                    >
+                                                        Valor
+                                                    </th>
+
+                                                    <th
+                                                        scope="col"
+                                                        class="px-4 py-3 text-xs font-bold text-center text-gray-500 uppercase"
                                                     >
                                                         Ações
                                                     </th>
@@ -117,39 +124,56 @@ import { Head } from "@inertiajs/vue3";
                                             <tbody
                                                 class="divide-y divide-gray-200"
                                             >
-                                                <tr>
-                                                    <td
+                                                <tr
+                                                    v-for="orcamento in $page
+                                                        .props.list"
+                                                >
+                                                    <!-- <td
                                                         class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap"
                                                     >
-                                                        1
+                                                        {{ orcamento.id }}
+                                                    </td> -->
+
+                                                    <td
+                                                        class="px-2 py-4 text-center text-sm text-gray-800 whitespace-nowrap"
+                                                    >
+                                                        {{ orcamento.data }}
                                                     </td>
+
+                                                    <td
+                                                        class="px-2 py-4 text-center text-sm text-gray-800 whitespace-nowrap"
+                                                    >
+                                                        {{ orcamento.hora }}
+                                                    </td>
+
                                                     <td
                                                         class="px-6 py-4 text-sm text-left text-gray-800 whitespace-nowrap"
                                                     >
-                                                        Jone Doe
+                                                        {{
+                                                            orcamento.nome_cliente
+                                                        }}
                                                     </td>
 
                                                     <td
-                                                        class="px-6 py-4 text-center text-sm text-gray-800 whitespace-nowrap"
+                                                        class="px-6 py-4 text-left text-sm text-ellipsis text-gray-800"
                                                     >
-                                                        01/01/2024
+                                                        {{
+                                                            orcamento.descricao
+                                                        }}
                                                     </td>
 
                                                     <td
-                                                        class="px-6 py-4 text-center text-sm text-gray-800 whitespace-nowrap"
+                                                        class="px-2 py-4 text-left text-sm text-ellipsis text-gray-800"
                                                     >
-                                                        09:00
+                                                        {{
+                                                            String(
+                                                                orcamento.valor
+                                                            ).replace(".", ",")
+                                                        }}
                                                     </td>
 
                                                     <td
-                                                        class="px-6 py-4 text-left text-sm text-gray-800 whitespace-nowrap"
-                                                    >
-                                                        Descrição curta do
-                                                        orcamento....
-                                                    </td>
-
-                                                    <td
-                                                        class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap"
+                                                        class="px-4 py-4 text-sm font-medium text-right whitespace-nowrap"
                                                     >
                                                         <a
                                                             class="text-green-500 hover:text-green-700"
@@ -158,7 +182,7 @@ import { Head } from "@inertiajs/vue3";
                                                             Editar
                                                         </a>
                                                         <a
-                                                            class="text-red-500 hover:text-red-700"
+                                                            class="text-red-500 hover:text-red-700 ml-3"
                                                             href="#"
                                                         >
                                                             Remover

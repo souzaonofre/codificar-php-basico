@@ -32,8 +32,8 @@ class Orcamento extends Model
      * @var array
      */
     protected $casts = [
-        'data' => 'date:Y-m-d',
-        'hora' => 'datetime:H-i-s',
+        'data' => 'date:d/m/Y',
+        'hora' => 'datetime:H:i',
     ];
 
     public function cliente(): BelongsTo

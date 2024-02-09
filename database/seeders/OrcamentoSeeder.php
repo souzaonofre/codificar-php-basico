@@ -16,7 +16,7 @@ class OrcamentoSeeder extends Seeder
         $clientes = \App\Models\Cliente::all();
 
         foreach ($clientes as $cliente) {
-            \App\Models\Orcamento::factory(3)->create([
+            \App\Models\Orcamento::factory()->create([
                 'id_cliente' => $cliente->id,
                 'id_vendedor' => $vendedor->id,
             ]);

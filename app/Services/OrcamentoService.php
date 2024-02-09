@@ -34,10 +34,18 @@ class OrcamentoService
             $builder->whereDate('data', Date::createFromFormat('d/m/Y', $data)->format('Y-m-D'));
         }
 
-        $cols = ['id', 'data', 'hora', 'descricao', 'valor'];
+        $builder->orderBy('data', 'DESC');
+
+        $cols = ['id', 'id_cliente', 'data', 'hora', 'descricao', 'valor'];
 
         $list = $builder->paginate($perPage, $cols)
             ->items();
+
+        $list = array_map(function ($oct) {
+            $arrOct = $oct->toArray();
+            $arrOct['nome_cliente'] = $oct->cliente->nome;
+            return $arrOct;
+        }, $list);
 
         return $list;
     }
