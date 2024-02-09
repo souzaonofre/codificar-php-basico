@@ -18,7 +18,7 @@ class VendedorSeeder extends Seeder
         foreach ($users as $user) {
             \App\Models\Vendedor::factory()->create([
                 'id_user' => $user->id,
-                'alias' => Str::wordwrap($user->name, 1),
+                'alias' => Str::wordwrap($user->name, 1, ' ', true),
             ]);
         }
     }

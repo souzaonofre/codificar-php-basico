@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,10 @@ class VendedorFactory extends Factory
      */
     public function definition(): array
     {
+        $loc = 'pt_BR';
+
         return [
-            'telefone' => fake()->unique()->phoneNumber(),
+            'telefone' => fake($loc)->unique()->phoneNumber(),
         ];
     }
 }
