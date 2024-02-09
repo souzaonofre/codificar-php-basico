@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
+use App\Models\User;
 use Inertia\Middleware;
+use App\Models\Vendedor;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -29,8 +31,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = $request->user();
-        $vendedor = $user?->vendedor;
+        $user = User::query()->find($request->user()->id, ['id', 'name', 'email']);
+        $vendedor = Vendedor::query()->where('id_user', $user?->id)->first(['nome', 'alias', 'email', 'telefone']);
 
         return [
             ...parent::share($request),
