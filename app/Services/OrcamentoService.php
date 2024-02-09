@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Orcamento;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class OrcamentoService
 {
@@ -14,12 +16,27 @@ class OrcamentoService
     {
         $vendedor = $request->user()?->vendedor;
 
-        //$page = $request->integer('page', 0);
+        $builder = Orcamento::query()
+            ->where('id_vendedor', $vendedor?->id);
+
+        $buscar = $request->string('buscar');
+        if (Str::length($buscar) >= 3) {
+            $builder->where('descricao', 'LIKE', "%{$buscar}%");
+        }
+
+        $cliente = $request->integer('cliente');
+        if ($cliente > 0) {
+            $builder->where('cliente', $cliente);
+        }
+
+        $data = $request->string('data');
+        if (Str::length($data) >= 8) {
+            $builder->whereDate('data', Date::createFromFormat('d/m/Y', $data)->format('Y-m-D'));
+        }
+
         $cols = ['id', 'data', 'hora', 'descricao', 'valor'];
 
-        $list = Orcamento::query()
-            ->where('id_vendedor', $vendedor?->id)
-            ->paginate($perPage, $cols)
+        $list = $builder->paginate($perPage, $cols)
             ->items();
 
         return $list;
