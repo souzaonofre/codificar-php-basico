@@ -224,14 +224,14 @@ defineProps({ view_data: Object });
                                         <div>
                                             <p class="text-sm text-gray-700">
                                                 Visualizando de
-                                                <span class="font-medium"
-                                                    >1</span
-                                                >
+                                                <span class="font-medium">{{
+                                                    view_data.from
+                                                }}</span>
                                                 até
                                                 <span class="font-medium"
-                                                    >10</span
+                                                    >{{ view_data.to }},</span
                                                 >
-                                                no total de:
+                                                no total de
                                                 <span class="font-medium">{{
                                                     view_data.total
                                                 }}</span>
