@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Date;
 class OrcamentoService
 {
 
-    public function listarOrcamentos(Request $request, int $perPage = 10): array
+    public function listarOrcamentos(Request $request, int $perPage = 5): array
     {
         $vendedor = $request->user()?->vendedor;
 
@@ -52,11 +52,15 @@ class OrcamentoService
             return $arrOct;
         }, $paginate->items());
 
+        $paginateData = $paginate->toArray();
+
         $viewData = [
             'data' => $orcamentos,
-            'links' => $paginate->linkCollection()->toArray(),
-            'total' => $paginate->total(),
-            'perPage' => $perPage
+            'links' => $paginateData['links'],
+            'from' => $paginateData['from'],
+            'to' => $paginateData['to'],
+            'per_page' => $paginateData['per_page'],
+            'total' => $paginateData['total'],
         ];
 
         return $viewData;
