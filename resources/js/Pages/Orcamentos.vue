@@ -250,13 +250,10 @@ defineProps({ view_data: Object });
                                                 >
                                                     <template v-if="idx === 0">
                                                         <Link
-                                                            :href="link.url"
-                                                            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                                                            :disable="
-                                                                link.url
-                                                                    ? false
-                                                                    : true
+                                                            :href="
+                                                                link.url ?? ''
                                                             "
+                                                            class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                                                         >
                                                             <span
                                                                 class="sr-only"
@@ -287,7 +284,9 @@ defineProps({ view_data: Object });
                                                         "
                                                     >
                                                         <Link
-                                                            :href="link.url"
+                                                            :href="
+                                                                link.url ?? ''
+                                                            "
                                                             class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                                                         >
                                                             <span
