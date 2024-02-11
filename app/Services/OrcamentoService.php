@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Orcamento;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\ClienteService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrcamentoService
 {
@@ -54,6 +55,8 @@ class OrcamentoService
 
         $paginateData = $paginate->toArray();
 
+        $clienteIds = $paginate->pluck('id_cliente')->toArray();
+
         $viewData = [
             'data' => $orcamentos,
             'links' => $paginateData['links'],
@@ -61,6 +64,7 @@ class OrcamentoService
             'to' => $paginateData['to'],
             'per_page' => $paginateData['per_page'],
             'total' => $paginateData['total'],
+            'cliente_select_options' => (new ClienteService())->makeSelectOptionsData($clienteIds)
         ];
 
         return $viewData;
