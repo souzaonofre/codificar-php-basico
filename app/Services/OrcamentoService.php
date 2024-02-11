@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Services\ClienteService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Database\Eloquent\Collection;
+use App\Http\Resources\OrcamentoResource;
 
 class OrcamentoService
 {
@@ -32,8 +32,17 @@ class OrcamentoService
             $builder->where('id_cliente', $cliente);
         }
 
-        $data_inicio = Date::createFromFormat('d/m/Y', $request->string('data_inicio', ''));
-        $data_fim = Date::createFromFormat('d/m/Y', $request->string('data_fim', ''));
+        $strObj = $request->string('data_inicio');
+        $data_inicio = null;
+        if ($strObj->isNotEmpty()) {
+            $data_inicio = Date::createFromFormat('d/m/Y', $strObj->value);
+        }
+
+        $strObj = $request->string('data_fim');
+        $data_fim = null;
+        if ($strObj->isNotEmpty()) {
+            $data_fim = Date::createFromFormat('d/m/Y', $strObj->value);
+        }
 
         if ($data_inicio && $data_fim) {
             $builder->whereDate('data', '>=', $data_inicio)
@@ -55,26 +64,24 @@ class OrcamentoService
         /**
          * @var Paginator
          */
-        $paginate = $builder->paginate($perPage, $cols);
+        $paginate = $builder->paginate($perPage);
 
-        $orcamentos = array_map(function ($oct) {
-            $arrOct = $oct->toArray();
-            $arrOct['nome_cliente'] = $oct->cliente->nome;
-            return $arrOct;
-        }, $paginate->items());
+
+        $resourceData = OrcamentoResource::collection($paginate);
 
         $paginateData = $paginate->toArray();
 
         $clienteIds = $paginate->pluck('id_cliente')->toArray();
+        $clienteSelectOpts = (new ClienteService())->makeSelectOptionsData($clienteIds);
 
         $viewData = [
-            'data' => $orcamentos,
+            'data' => $resourceData->toArray($request),
             'links' => $paginateData['links'],
             'from' => $paginateData['from'],
             'to' => $paginateData['to'],
             'per_page' => $paginateData['per_page'],
             'total' => $paginateData['total'],
-            'cliente_select_options' => (new ClienteService())->makeSelectOptionsData($clienteIds)
+            'cliente_select_options' => $clienteSelectOpts
         ];
 
         return $viewData;
