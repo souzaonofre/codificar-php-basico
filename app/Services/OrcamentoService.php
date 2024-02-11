@@ -22,7 +22,7 @@ class OrcamentoService
         $builder = Orcamento::query()
             ->where('id_vendedor', $vendedor?->id);
 
-        $buscar = $request->string('buscar');
+        $buscar = $request->string('buscar_descr');
         if (Str::length($buscar) >= 3) {
             $builder->where('descricao', 'LIKE', "%{$buscar}%");
         }
@@ -32,10 +32,20 @@ class OrcamentoService
             $builder->where('id_cliente', $cliente);
         }
 
-        $data = $request->string('data');
-        if (Str::length($data) >= 8) {
-            $data =  Date::createFromFormat('d/m/Y', $data)->format('Y-m-d');
-            $builder->where('data', $data);
+        $data_inicio = Date::createFromFormat('d/m/Y', $request->string('data_inicio', ''));
+        $data_fim = Date::createFromFormat('d/m/Y', $request->string('data_fim', ''));
+
+        if ($data_inicio && $data_fim) {
+            $builder->whereDate('data', '>=', $data_inicio)
+                ->whereDate('data', '<=', $data_fim);
+        }
+
+        if ($data_inicio && !$data_fim) {
+            $builder->whereDate('data', '>=', $data_inicio);
+        }
+
+        if (!$data_inicio && $data_fim) {
+            $builder->whereDate('data', '<=', $data_fim);
         }
 
         $builder->orderBy('data', 'DESC');
