@@ -42,8 +42,10 @@ const showingNavigationDropdown = ref(false);
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
-                                    :href="route('orcamentos')"
-                                    :active="route().current('orcamentos')"
+                                    :href="route('orcamento.listar')"
+                                    :active="
+                                        route().current('orcamento.listar')
+                                    "
                                 >
                                     Orçamentos
                                 </NavLink>

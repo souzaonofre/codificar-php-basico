@@ -19,59 +19,53 @@ class OrcamentoController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Listar Orçamentos
+     *
+     * @param Request $request
+     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function listar(Request $request): \Inertia\Response
     {
         $viewData = $this->serviceData->listarOrcamentos($request);
         return Inertia::render('Orcamentos', ['view_data' => $viewData]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Salvar dados de Orçamento
+     *
+     * @param StoreOrcamentoRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function create()
+    public function salvar(StoreOrcamentoRequest $request): \Illuminate\Http\RedirectResponse
     {
         //
+
+        return to_route('orcamento.listar');
+    }
+
+
+    /**
+     * Atualizar dados de Orçamento
+     *
+     * @param UpdateOrcamentoRequest $request
+     * @param Orcamento $orcamento
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function atualizar(UpdateOrcamentoRequest $request, Orcamento $orcamento): \Illuminate\Http\RedirectResponse
+    {
+        //
+        return to_route('orcamento.listar');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Remover dados de Orçamento
+     *
+     * @param Orcamento $orcamento
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreOrcamentoRequest $request)
+    public function remover(Orcamento $orcamento): \Illuminate\Http\RedirectResponse
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Orcamento $orcamento)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Orcamento $orcamento)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateOrcamentoRequest $request, Orcamento $orcamento)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Orcamento $orcamento)
-    {
-        //
+        return to_route('orcamento.listar');
     }
 }

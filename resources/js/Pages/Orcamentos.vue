@@ -48,10 +48,10 @@ function sendData() {
                                             <input
                                                 type="text"
                                                 v-model="formData.buscar"
-                                                @change="sendData"
+                                                @input="sendData"
                                                 @blur="sendData"
                                                 class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                                                placeholder="buscar na descrição..."
+                                                placeholder="  buscar por cliente ou vendedor..."
                                             />
                                             <div
                                                 class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none"

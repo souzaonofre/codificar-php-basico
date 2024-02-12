@@ -35,8 +35,22 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/orcamentos', [OrcamentoController::class, 'index'])
-        ->name('orcamentos');
+    Route::redirect('/orcamentos', '/orcamento/listar', 301);
+    Route::redirect('/orcamento', '/orcamento/listar', 301);
+
+    Route::get('/orcamento/listar', [OrcamentoController::class, 'listar'])
+        ->name('orcamento.listar');
+
+    Route::post('/orcamento/salvar', [OrcamentoController::class, 'salvar'])
+        ->name('orcamento.salvar');
+
+    Route::put('/orcamento/{id}/atualizar', [OrcamentoController::class, 'atualizar'])
+        ->name('orcamento.atualizar');
+
+    Route::delete('/orcamento/{id}/remover', [OrcamentoController::class, 'remover'])
+        ->name('orcamento.remover');
+
+
 });
 
 

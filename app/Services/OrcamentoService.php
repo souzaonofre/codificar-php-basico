@@ -17,23 +17,28 @@ use Illuminate\Database\Eloquent\Builder;
 class OrcamentoService
 {
 
+    /**
+     * Serviço que seleciona, compõe, filtra, ordena e
+     * executa paginação de dados para listagem de Orçamentos.
+     *
+     * @param Request $request
+     * @param integer $perPage
+     * @return array
+     */
     public function listarOrcamentos(Request $request, int $perPage = 5): array
     {
-        $vendedor = $request->user()?->vendedor;
+        // $vendedor = $request->user()?->vendedor;
 
-        $builder = Orcamento::query()
-            ->where('id_vendedor', $vendedor?->id);
+        // $builder = Orcamento::query()
+            // ->where('id_vendedor', $vendedor?->id);
+
+        $builder = Orcamento::query();
 
         $buscar = $request->string('buscar');
         if (Str::length($buscar) >= 3) {
             $builder->whereRelation('vendedor', 'nome', 'LIKE', "%{$buscar}%")
                 ->orWhereRelation('cliente', 'nome', 'LIKE', "%{$buscar}%");
         }
-
-        // $cliente = $request->integer('cliente');
-        // if ($cliente > 0) {
-        //     $builder->where('id_cliente', $cliente);
-        // }
 
         $strObj = $request->string('data_inicio');
         $data_inicio = null;
