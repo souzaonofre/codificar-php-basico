@@ -1,7 +1,10 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
+
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
 defineProps({ view_data: Object });
 
@@ -14,6 +17,8 @@ const formData = reactive({
 function sendData() {
     router.get("#", formData, { preserveState: true });
 }
+
+const date_range = ref();
 </script>
 
 <template>
@@ -40,17 +45,18 @@ function sendData() {
                                         action="GET"
                                         @submit.prevent="sendData"
                                     >
-                                        <!-- Input Buscar texto na descrição -->
+                                        <!-- Input Buscar texto em Vendedor e Cliente -->
                                         <div class="relative w-3/4 max-w-xs">
                                             <label for="buscar" class="sr-only">
                                                 Buscar
                                             </label>
+
                                             <input
                                                 type="text"
                                                 v-model="formData.buscar"
                                                 @input="sendData"
                                                 @blur="sendData"
-                                                class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                                class="block w-full pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
                                                 placeholder="  buscar por cliente ou vendedor..."
                                             />
                                             <div
@@ -73,47 +79,23 @@ function sendData() {
                                             </div>
                                         </div>
 
-                                        <!-- <div class="relative w-3/4 max-w-xs">
+                                        <div class="relative w-3/4 max-w-xs">
                                             <label
-                                                for="cliente"
+                                                for="date_range"
                                                 class="sr-only"
                                             >
-                                                Cliente
+                                                Filtrar por Datas
                                             </label>
-                                            <select
-                                                class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
-                                                @change="sendData"
-                                                v-model="formData.cliente"
-                                            >
-                                                <option
-                                                    value=""
-                                                    v-attr:selected="
-                                                        !formData.cliente ||
-                                                        formData.cliente ==
-                                                            '' ||
-                                                        formData.cliente == 0
-                                                    "
-                                                >
-                                                    Todos clientes
-                                                </option>
 
-                                                <template
-                                                    v-for="cli in view_data.cliente_select_options"
-                                                    :key="cli.id"
-                                                >
-                                                    <option
-                                                        :value="cli.id"
-                                                        v-attr:selected="
-                                                            formData.cliente ==
-                                                            cli.id
-                                                        "
-                                                    >
-                                                        {{ cli.nome }}
-                                                    </option>
-                                                </template>
-                                            </select>
+                                            <VueDatePicker
+                                                v-model="date_range"
+                                                range
+                                                locale="pt-BR"
+                                                format="dd/MM/yyyy"
+                                                placeholder="filtrar por datas..."
+                                            ></VueDatePicker>
 
-                                            <div
+                                            <!-- <div
                                                 class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none"
                                             >
                                                 <svg
@@ -132,8 +114,8 @@ function sendData() {
                                                         d="M18.8 4H5.2a1 1 0 0 0-.7 1.7l5.3 6 .2.7v4.8c0 .2 0 .4.2.4l3 2.3c.3.2.8 0 .8-.4v-7.1c0-.3 0-.5.2-.7l5.3-6a1 1 0 0 0-.7-1.7Z"
                                                     />
                                                 </svg>
-                                            </div>
-                                        </div> -->
+                                            </div> -->
+                                        </div>
                                     </form>
                                 </div>
                                 <!-- End Filters containers -->
