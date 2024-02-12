@@ -6,8 +6,7 @@ import { Head, Link, router } from "@inertiajs/vue3";
 defineProps({ view_data: Object });
 
 const formData = reactive({
-    buscar_descr: null,
-    cliente: null,
+    buscar: null,
     data_inicio: null,
     data_fim: null,
 });
@@ -43,15 +42,12 @@ function sendData() {
                                     >
                                         <!-- Input Buscar texto na descrição -->
                                         <div class="relative w-3/4 max-w-xs">
-                                            <label
-                                                for="buscar_descr"
-                                                class="sr-only"
-                                            >
+                                            <label for="buscar" class="sr-only">
                                                 Buscar
                                             </label>
                                             <input
                                                 type="text"
-                                                v-model="formData.buscar_descr"
+                                                v-model="formData.buscar"
                                                 @change="sendData"
                                                 @blur="sendData"
                                                 class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
@@ -77,7 +73,7 @@ function sendData() {
                                             </div>
                                         </div>
 
-                                        <div class="relative w-3/4 max-w-xs">
+                                        <!-- <div class="relative w-3/4 max-w-xs">
                                             <label
                                                 for="cliente"
                                                 class="sr-only"
@@ -137,7 +133,7 @@ function sendData() {
                                                     />
                                                 </svg>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </form>
                                 </div>
                                 <!-- End Filters containers -->
@@ -177,6 +173,17 @@ function sendData() {
                                                         class="px-2 py-3 text-xs font-bold text-center text-gray-500 uppercase"
                                                     >
                                                         Hora
+                                                    </th>
+
+                                                    <th
+                                                        scope="col"
+                                                        class="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase"
+                                                    >
+                                                        <span
+                                                            class="inline-flex items-center"
+                                                        >
+                                                            Vendedor
+                                                        </span>
                                                     </th>
 
                                                     <th
@@ -241,7 +248,17 @@ function sendData() {
                                                         class="px-6 py-4 text-sm text-left text-gray-800 whitespace-nowrap"
                                                     >
                                                         {{
-                                                            orcamento.nome_cliente
+                                                            orcamento.vendedor
+                                                                .nome
+                                                        }}
+                                                    </td>
+
+                                                    <td
+                                                        class="px-6 py-4 text-sm text-left text-gray-800 whitespace-nowrap"
+                                                    >
+                                                        {{
+                                                            orcamento.cliente
+                                                                .nome
                                                         }}
                                                     </td>
 

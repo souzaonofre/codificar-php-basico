@@ -11,6 +11,8 @@ use App\Services\ClienteService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Date;
 use App\Http\Resources\OrcamentoResource;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class OrcamentoService
 {
@@ -22,15 +24,17 @@ class OrcamentoService
         $builder = Orcamento::query()
             ->where('id_vendedor', $vendedor?->id);
 
-        $buscar = $request->string('buscar_descr');
+        $buscar = $request->string('buscar');
         if (Str::length($buscar) >= 3) {
-            $builder->where('descricao', 'LIKE', "%{$buscar}%");
+            $builder->where('descricao', 'LIKE', "%{$buscar}%")
+                ->orWhereRelation('vendedor', 'nome', 'LIKE', "%{$buscar}%")
+                ->orWhereRelation('cliente', 'nome', 'LIKE', "%{$buscar}%");
         }
 
-        $cliente = $request->integer('cliente');
-        if ($cliente > 0) {
-            $builder->where('id_cliente', $cliente);
-        }
+        // $cliente = $request->integer('cliente');
+        // if ($cliente > 0) {
+        //     $builder->where('id_cliente', $cliente);
+        // }
 
         $strObj = $request->string('data_inicio');
         $data_inicio = null;
