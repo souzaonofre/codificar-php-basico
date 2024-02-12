@@ -18,23 +18,8 @@ class Vendedor extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id_user',
-        'alias',
+        'nome',
         'telefone',
     ];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'id_user');
-    }
-
-    public function getNomeAttribute(): ?String
-    {
-        return $this->user?->name;
-    }
-
-    public function getEmailAttribute(): ?String
-    {
-        return $this->user?->email;
-    }
 }

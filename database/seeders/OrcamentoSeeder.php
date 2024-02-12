@@ -12,14 +12,16 @@ class OrcamentoSeeder extends Seeder
      */
     public function run(): void
     {
-        $vendedor = \App\Models\Vendedor::query()->first(['id']);
-        $clientes = \App\Models\Cliente::all();
+        $vendedores = \App\Models\Vendedor::all(['id']);
+        $clientes = \App\Models\Cliente::all(['id']);
 
-        foreach ($clientes as $cliente) {
-            \App\Models\Orcamento::factory()->create([
-                'id_cliente' => $cliente->id,
-                'id_vendedor' => $vendedor->id,
-            ]);
+        foreach ($vendedores as $vendedor) {
+            foreach ($clientes as $cliente) {
+                \App\Models\Orcamento::factory()->create([
+                    'id_cliente' => $cliente->id,
+                    'id_vendedor' => $vendedor->id,
+                ]);
+            }
         }
     }
 }

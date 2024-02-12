@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 #use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class VendedorSeeder extends Seeder
@@ -13,13 +14,10 @@ class VendedorSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = \App\Models\User::all();
-
-        foreach ($users as $user) {
-            \App\Models\Vendedor::factory()->create([
-                'id_user' => $user->id,
-                'alias' => explode(' ', $user->name)[0],
-            ]);
-        }
+        \App\Models\Vendedor::factory()
+            ->count(5)
+            ->sequence(
+                fn (Sequence $seq) => ['nome' => sprintf('Vendedor %s', str_pad(strval($seq->index + 1), 3, '0', STR_PAD_LEFT))]
+            )->create();
     }
 }

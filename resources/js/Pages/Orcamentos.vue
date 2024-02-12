@@ -27,7 +27,7 @@ const date_range = ref();
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Orçamentos vendedor: "{{ $page.props.auth.vendedor.alias }}"
+                Lista de Orçamentos
             </h2>
         </template>
 
@@ -79,7 +79,7 @@ const date_range = ref();
                                             </div>
                                         </div>
 
-                                        <div class="relative w-3/4 max-w-xs">
+                                        <div class="relative max-w-xs mr-auto">
                                             <label
                                                 for="date_range"
                                                 class="sr-only"
