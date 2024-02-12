@@ -43,7 +43,7 @@ class Orcamento extends Model
 
     public function vendedor(): BelongsTo
     {
-        return $this->belongsTo(Cliente::class, 'id_vendedor');
+        return $this->belongsTo(Vendedor::class, 'id_vendedor');
     }
 
     public function getNomeClienteAttribute(): ?String
