@@ -38,6 +38,7 @@ function sendData() {
                                     <form
                                         class="flex space-x-4"
                                         style="align-content: flex-start"
+                                        action="GET"
                                         @submit.prevent="sendData"
                                     >
                                         <!-- Input Buscar texto na descrição -->
@@ -50,7 +51,9 @@ function sendData() {
                                             </label>
                                             <input
                                                 type="text"
-                                                name="buscar_descr"
+                                                v-model="formData.buscar_descr"
+                                                @change="sendData"
+                                                @blur="sendData"
                                                 class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
                                                 placeholder="buscar na descrição..."
                                             />
@@ -82,19 +85,33 @@ function sendData() {
                                                 Cliente
                                             </label>
                                             <select
-                                                name="cliente"
                                                 class="block w-full p-3 pl-10 text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                                                @change="sendData"
+                                                v-model="formData.cliente"
                                             >
-                                                <option value="">
-                                                    &nbsp;&nbsp;selecione
-                                                    cliente p/ filtrar...
+                                                <option
+                                                    value=""
+                                                    v-attr:selected="
+                                                        !formData.cliente ||
+                                                        formData.cliente ==
+                                                            '' ||
+                                                        formData.cliente == 0
+                                                    "
+                                                >
+                                                    Todos clientes
                                                 </option>
 
                                                 <template
                                                     v-for="cli in view_data.cliente_select_options"
                                                     :key="cli.id"
                                                 >
-                                                    <option :value="cli.id">
+                                                    <option
+                                                        :value="cli.id"
+                                                        v-attr:selected="
+                                                            formData.cliente ==
+                                                            cli.id
+                                                        "
+                                                    >
                                                         {{ cli.nome }}
                                                     </option>
                                                 </template>

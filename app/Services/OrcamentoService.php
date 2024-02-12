@@ -59,8 +59,6 @@ class OrcamentoService
 
         $builder->orderBy('data', 'DESC');
 
-        $cols = ['id', 'id_cliente', 'data', 'hora', 'descricao', 'valor'];
-
         /**
          * @var Paginator
          */
@@ -71,7 +69,7 @@ class OrcamentoService
 
         $paginateData = $paginate->toArray();
 
-        $clienteIds = $paginate->pluck('id_cliente')->toArray();
+        $clienteIds = Orcamento::all(['id_cliente'])->pluck('id_cliente')->toArray();
         $clienteSelectOpts = (new ClienteService())->makeSelectOptionsData($clienteIds);
 
         $viewData = [

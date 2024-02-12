@@ -20,6 +20,13 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .directive('attr', (el, binding) => {
+                if (binding.value === true || binding.value === 'true' || binding.value === '1') {
+                    el.setAttribute(binding.arg, '');
+                } else {
+                    el.removeAttribute(binding.arg);
+                }
+            })
             .mount(el);
     },
     progress: {
