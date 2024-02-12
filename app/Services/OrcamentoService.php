@@ -26,8 +26,7 @@ class OrcamentoService
 
         $buscar = $request->string('buscar');
         if (Str::length($buscar) >= 3) {
-            $builder->where('descricao', 'LIKE', "%{$buscar}%")
-                ->orWhereRelation('vendedor', 'nome', 'LIKE', "%{$buscar}%")
+            $builder->whereRelation('vendedor', 'nome', 'LIKE', "%{$buscar}%")
                 ->orWhereRelation('cliente', 'nome', 'LIKE', "%{$buscar}%");
         }
 
