@@ -7,7 +7,10 @@ const editar_show = ref(false);
 const orcamento_data = ref({});
 
 const editar = function (orcamento) {
-    if (!orcamento || "id" in Object.keys(orcamento)) {
+    if (
+        !orcamento ||
+        Object.keys(orcamento).findIndex((key) => key == "id") < 0
+    ) {
         return;
     }
     orcamento_data.value = orcamento;
