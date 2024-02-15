@@ -27,7 +27,7 @@ class OrcamentoController extends Controller
     public function listar(Request $request): \Inertia\Response
     {
         $viewData = $this->serviceData->listarOrcamentos($request);
-        return Inertia::render('Orcamentos', ['view_data' => $viewData]);
+        return Inertia::render('Orcamento/Listar', ['view_data' => $viewData]);
     }
 
     /**
