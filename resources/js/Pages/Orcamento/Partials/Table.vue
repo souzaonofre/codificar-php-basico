@@ -1,5 +1,18 @@
 <script setup>
+import { ref } from "vue";
+import Modal from "@/Components/Modal.vue";
+
 defineProps({ table_data: Object });
+const editar_show = ref(false);
+const orcamento_data = ref({});
+
+const editar = function (orcamento) {
+    if (!orcamento || "id" in Object.keys(orcamento)) {
+        return;
+    }
+    orcamento_data.value = orcamento;
+    editar_show.value = true;
+};
 </script>
 
 <template>
@@ -123,6 +136,7 @@ defineProps({ table_data: Object });
                             <a
                                 class="text-green-500 hover:text-green-700"
                                 href="#"
+                                @click="editar(orcamento)"
                             >
                                 Editar
                             </a>
@@ -137,6 +151,11 @@ defineProps({ table_data: Object });
                 </tbody>
             </table>
         </div>
+
+        <!-- Editar Modal -->
+        <Modal :show="editar_show" @close="editar_show = false">
+            <h1>{{ orcamento_data.descricao }}</h1>
+        </Modal>
     </div>
     <!-- End Table container -->
 </template>
