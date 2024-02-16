@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import Modal from "@/Components/Modal.vue";
+import FormInputControl from "@/Components/Form/FormInputControl.vue";
 
 defineProps({ table_data: Object });
 const editar_show = ref(false);
 const orcamento_data = ref({});
+const update_url = ref("#");
 
 const editar = function (orcamento) {
     if (
@@ -14,6 +16,7 @@ const editar = function (orcamento) {
         return;
     }
     orcamento_data.value = orcamento;
+    update_url.value = `/orcamento/${orcamento.id}/atualizar`;
     editar_show.value = true;
 };
 </script>
@@ -157,7 +160,20 @@ const editar = function (orcamento) {
 
         <!-- Editar Modal -->
         <Modal :show="editar_show" @close="editar_show = false">
-            <h1>{{ orcamento_data.descricao }}</h1>
+            <div class="container mx-auto p-4">
+                <div class="bg-white p-8 rounded shadow-md max-w-md mx-auto">
+                    <h2 class="text-2xl font-bold mb-6">Editar Orçamento</h2>
+                    <form method="POST" :action="update_url">
+                        <FormInputControl
+                            id="inputValor"
+                            name="valor"
+                            label="Valor Orçamento"
+                            placeholder=""
+                            :has-error="false"
+                        />
+                    </form>
+                </div>
+            </div>
         </Modal>
     </div>
     <!-- End Table container -->
