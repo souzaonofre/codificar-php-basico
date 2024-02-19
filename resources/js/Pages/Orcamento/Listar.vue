@@ -25,7 +25,12 @@ defineProps({ view_data: Object });
                         <div class="flex flex-col">
                             <div class="overflow-x-auto">
                                 <Filters></Filters>
-                                <Table :table_data="view_data.data"></Table>
+                                <Table
+                                    :table_data="view_data.data"
+                                    :modal_editar_data="
+                                        view_data.modal_data ?? {}
+                                    "
+                                />
                                 <Paginator
                                     :paginator_data="view_data"
                                 ></Paginator>

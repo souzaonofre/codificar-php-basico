@@ -77,6 +77,8 @@ class OrcamentoService
 
         $paginateData = $paginate->toArray();
 
+        $vendedorSelectOpts = (new VendedorService())->makeSelectOptionsData();
+
         $clienteIds = Orcamento::all(['id_cliente'])->pluck('id_cliente')->toArray();
         $clienteSelectOpts = (new ClienteService())->makeSelectOptionsData($clienteIds);
 
@@ -87,7 +89,10 @@ class OrcamentoService
             'to' => $paginateData['to'],
             'per_page' => $paginateData['per_page'],
             'total' => $paginateData['total'],
-            'cliente_select_options' => $clienteSelectOpts
+            'modal_data' => [
+                'vendedores' => $vendedorSelectOpts,
+                'clientes' => $clienteSelectOpts
+            ]
         ];
 
         return $viewData;
