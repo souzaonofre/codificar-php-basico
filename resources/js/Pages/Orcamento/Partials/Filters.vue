@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
+import { router } from "@inertiajs/vue3";
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
