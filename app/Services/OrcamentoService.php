@@ -98,8 +98,20 @@ class OrcamentoService
         return $viewData;
     }
 
+    public function salvarOrcamento(Request $request) : bool {
+        $createData = $request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']);
+        return Orcamento::query()->create($createData)->exists();
+    }
+
     public function atualizarOrcamento(Request $request, int $id) : bool {
         $orcamento = Orcamento::query()->findOrFail($id);
-        return $orcamento->updateOrFail($request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']));
+        $updateData = $request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']);
+        return $orcamento->updateOrFail($updateData);
     }
+
+    public function removerOrcamento(int $id) : bool {
+        $orcamento = Orcamento::query()->findOrFail($id);
+        return $orcamento->deleteOrFail();
+    }
+
 }
