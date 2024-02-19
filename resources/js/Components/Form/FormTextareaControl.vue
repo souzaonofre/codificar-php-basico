@@ -1,5 +1,4 @@
 <script setup>
-
 defineOptions({
     inheritAttrs: false,
 });
@@ -29,15 +28,15 @@ const props = defineProps({
         required: false,
         default: "",
     },
-    placeholder: {
-        type: String,
-        required: false,
-        default: "",
-    },
     title: {
         type: String,
         required: false,
         default: "",
+    },
+    rows: {
+        type: String,
+        required: false,
+        default: "7",
     },
     label: {
         type: String,
@@ -82,7 +81,6 @@ const props = defineProps({
 });
 
 defineEmits(["update:modelValue"]);
-
 </script>
 
 <template>
@@ -92,7 +90,7 @@ defineEmits(["update:modelValue"]);
                 label
             }}</span>
 
-            <input
+            <textarea
                 class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                 v-bind:class="{
                     '': true,
@@ -105,8 +103,8 @@ defineEmits(["update:modelValue"]);
                 v-bind:type="type"
                 v-bind:name="name"
                 v-bind:value="modelValue"
-                v-bind:placeholder="placeholder"
                 v-bind:title="title"
+                v-bind:rows="rows"
                 v-bind:disabled="disabled"
                 v-bind:readonly="readonly"
                 v-bind:required="required"

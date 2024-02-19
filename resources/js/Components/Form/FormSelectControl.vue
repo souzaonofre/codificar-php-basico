@@ -13,26 +13,12 @@ const props = defineProps({
     id: {
         type: String,
         required: true,
-        default: "inputControlId",
-    },
-    type: {
-        type: String,
-        required: false,
-        default: "text",
+        default: "selectControlId",
     },
     name: {
         type: String,
         required: true,
-        default: "inputControlName",
-    },
-    modelValue: {
-        required: false,
-        default: "",
-    },
-    placeholder: {
-        type: String,
-        required: false,
-        default: "",
+        default: "selectControlName",
     },
     title: {
         type: String,
@@ -43,6 +29,20 @@ const props = defineProps({
         type: String,
         required: true,
         default: "",
+    },
+    modelValue: {
+        required: false,
+        default: null,
+    },
+    options: {
+        type: Object,
+        required: true,
+        default: {
+            data: [],
+            labelProp: "name",
+            valueProp: "id",
+            idxProp: "id",
+        },
     },
     disabled: {
         type: Boolean,
@@ -60,9 +60,9 @@ const props = defineProps({
         default: false,
     },
     autofocus: {
-        type: String,
+        type: Boolean,
         required: false,
-        default: "",
+        default: false,
     },
     hasValidation: {
         type: Boolean,
@@ -81,39 +81,46 @@ const props = defineProps({
     },
 });
 
-defineEmits(["update:modelValue"]);
-
 </script>
 
 <template>
     <div class="mb-3">
-        <label v-bind:for="id ?? name" class="block">
+        <label class="block" v-bind:for="id ?? name">
             <span class="font-medium text-gray-500 text-sm pl-3">{{
                 label
             }}</span>
-
-            <input
-                class="block w-full mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+            <select
+                v-bind:autofocus="autofocus"
+                v-bind:id="id"
+                v-bind:name="name"
+                v-bind:tabindex="tabindex"
+                v-bind:title="title"
+                v-bind:disabled="disabled"
+                v-bind:readonly="readonly"
+                v-bind:required="required"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 v-bind:class="{
                     '': true,
                     'border-red-500': hasError,
                     'border-indigo-500': hasValidation && !hasError,
                 }"
-                v-bind:autofocus="autofocus"
-                v-bind:tabindex="tabindex"
-                v-bind:id="id"
-                v-bind:type="type"
-                v-bind:name="name"
                 v-bind:value="modelValue"
-                v-bind:placeholder="placeholder"
-                v-bind:title="title"
-                v-bind:disabled="disabled"
-                v-bind:readonly="readonly"
-                v-bind:required="required"
                 v-on:input.stop="
                     $emit('update:modelValue', $event.target.value)
                 "
-            />
+            >
+                <template
+                    v-for="opt in options.data"
+                    :key="opt[options.idxProp]"
+                >
+                    <option
+                        v-bind:value="opt[options.valueProp]"
+                        v-bind:selected="opt[options.valueProp] == modelValue"
+                    >
+                        {{ opt[options.labelProp] }}
+                    </option>
+                </template>
+            </select>
         </label>
 
         <div class="font-medium text-sm text-red-600" v-show="hasError">
@@ -121,5 +128,3 @@ defineEmits(["update:modelValue"]);
         </div>
     </div>
 </template>
-
-<style scoped></style>
