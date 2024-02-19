@@ -53,7 +53,7 @@ class OrcamentoController extends Controller
      */
     public function atualizar(UpdateOrcamentoRequest $request, Orcamento $orcamento): \Illuminate\Http\RedirectResponse
     {
-        //
+        $this->serviceData->atualizarOrcamento($request, $orcamento);
         return to_route('orcamento.listar');
     }
 
