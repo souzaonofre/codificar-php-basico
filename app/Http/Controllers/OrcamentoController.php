@@ -48,12 +48,12 @@ class OrcamentoController extends Controller
      * Atualizar dados de Orçamento
      *
      * @param UpdateOrcamentoRequest $request
-     * @param Orcamento $orcamento
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function atualizar(UpdateOrcamentoRequest $request, Orcamento $orcamento): \Illuminate\Http\RedirectResponse
+    public function atualizar(UpdateOrcamentoRequest $request, int $id): \Illuminate\Http\RedirectResponse
     {
-        $this->serviceData->atualizarOrcamento($request, $orcamento);
+        $this->serviceData->atualizarOrcamento($request, $id);
         return to_route('orcamento.listar');
     }
 

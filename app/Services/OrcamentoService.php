@@ -98,7 +98,8 @@ class OrcamentoService
         return $viewData;
     }
 
-    public function atualizarOrcamento(Request $request, Orcamento $orcamento) : bool {
-        return $orcamento->updateOrFail($request->all(['id_cliente', 'id_cliente', 'descricao', 'valor']));
+    public function atualizarOrcamento(Request $request, int $id) : bool {
+        $orcamento = Orcamento::query()->findOrFail($id);
+        return $orcamento->updateOrFail($request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']));
     }
 }

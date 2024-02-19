@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
-import { router } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
 import FormInputControl from "@/Components/Form/FormInputControl.vue";
 import FormSelectControl from "../../../Components/Form/FormSelectControl.vue";
@@ -12,7 +12,7 @@ const orcamento_data = ref({});
 const update_url = ref("#");
 const disable_salvar = ref(false);
 
-const formEditar = reactive({
+const formEditar = useForm({
     id_vendedor: null,
     id_cliente: null,
     descricao: null,
