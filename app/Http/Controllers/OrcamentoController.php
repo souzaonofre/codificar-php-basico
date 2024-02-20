@@ -27,7 +27,8 @@ class OrcamentoController extends Controller
     public function listar(Request $request): \Inertia\Response
     {
         $viewData = $this->serviceData->listarOrcamentos($request);
-        return Inertia::render('Orcamento/Listar', ['view_data' => $viewData]);
+        $result = $request->get('result');
+        return Inertia::render('Orcamento/Listar', ['view_data' => $viewData, 'result' => $result]);
     }
 
     /**
@@ -38,9 +39,8 @@ class OrcamentoController extends Controller
      */
     public function salvar(StoreOrcamentoRequest $request): \Illuminate\Http\RedirectResponse
     {
-        //
-
-        return to_route('orcamento.listar');
+        $status = $this->serviceData->salvarOrcamento($request);
+        return to_route('orcamento.listar', ['result' => ['action' => 'save', 'status' => $status]]);
     }
 
 
@@ -53,19 +53,19 @@ class OrcamentoController extends Controller
      */
     public function atualizar(UpdateOrcamentoRequest $request, int $id): \Illuminate\Http\RedirectResponse
     {
-        $this->serviceData->atualizarOrcamento($request, $id);
-        return to_route('orcamento.listar');
+        $status = $this->serviceData->atualizarOrcamento($request, $id);
+        return to_route('orcamento.listar', ['result' => ['action' => 'update', 'status' => $status]]);
     }
 
     /**
      * Remover dados de Orçamento
      *
-     * @param Orcamento $orcamento
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function remover(Orcamento $orcamento): \Illuminate\Http\RedirectResponse
+    public function remover(int $id): \Illuminate\Http\RedirectResponse
     {
-
-        return to_route('orcamento.listar');
+        $status = $this->serviceData->removerOrcamento($id);
+        return to_route('orcamento.listar', ['result' => ['action' => 'delete', 'status' => $status]]);
     }
 }
