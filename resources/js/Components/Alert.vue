@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, onActivated } from "vue";
 
 const props = defineProps({
     type: {
@@ -10,6 +10,11 @@ const props = defineProps({
     message: {
         type: String,
         required: true,
+    },
+    show: {
+        type: Number,
+        required: false,
+        default: 1,
     },
     timeout: {
         type: Number,
@@ -33,6 +38,8 @@ const prefix = computed(() => {
             return "";
     }
 });
+
+onActivated(() => alert("ativado!"));
 </script>
 
 <template>
@@ -43,8 +50,9 @@ const prefix = computed(() => {
             warning: props.type == 'warning',
             info: props.type == 'info',
         }"
+        v-show="props.show"
     >
-        <span class="close-btn">&times;</span>
+        <span class="close-btn" v-on:click="$emit('close-alert')">&times;</span>
         <strong>{{ prefix }}</strong> {{ props.message }}
     </div>
 </template>

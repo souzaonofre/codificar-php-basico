@@ -65,7 +65,12 @@ const remover = (orcamento) => {
         return;
     }
 
-    if (!confirm("Confirma a remoção dos dados deste Orçamento?")) {
+    if (
+        !confirm(
+            "Confirma a remoção dos dados deste Orçamento?",
+            "Remover Orçamento"
+        )
+    ) {
         return;
     }
 
