@@ -21,8 +21,8 @@ class OrcamentoService
      * Serviço que seleciona, compõe, filtra, ordena e
      * executa paginação de dados para listagem de Orçamentos.
      *
-     * @param Request $request
-     * @param integer $perPage
+     * @param Request $request "dados da requisição http"
+     * @param integer $perPage "Qtd. items  por pagina (paginação de dados)"
      * @return array
      */
     public function listarOrcamentos(Request $request, int $perPage = 5): array
@@ -98,17 +98,36 @@ class OrcamentoService
         return $viewData;
     }
 
+    /**
+     * Serviço para salvar os dados de um novo Orçamento.
+     *
+     * @param Request $request "dados da requisição http"
+     * @return boolean
+     */
     public function salvarOrcamento(Request $request) : bool {
         $createData = $request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']);
         return Orcamento::query()->create($createData)->exists();
     }
 
+    /**
+     * Serviço para atualizar os dados de um Orçamento registrado.
+     *
+     * @param Request $request "dados da requisição http"
+     * @param integer $id "id do Orcamento"
+     * @return boolean
+     */
     public function atualizarOrcamento(Request $request, int $id) : bool {
         $orcamento = Orcamento::query()->findOrFail($id);
         $updateData = $request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']);
         return $orcamento->updateOrFail($updateData);
     }
 
+    /**
+     * Serviço para remover os dados de um Orçamento registrado.
+     *
+     * @param integer $id "id do Orcamento"
+     * @return boolean
+     */
     public function removerOrcamento(int $id) : bool {
         $orcamento = Orcamento::query()->findOrFail($id);
         return $orcamento->deleteOrFail();
