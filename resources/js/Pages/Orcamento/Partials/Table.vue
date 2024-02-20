@@ -56,6 +56,32 @@ const updateData = () => {
         },
     });
 };
+
+const remover = (orcamento) => {
+    if (
+        !orcamento ||
+        Object.keys(orcamento).findIndex((key) => key == "id") < 0
+    ) {
+        return;
+    }
+
+    if (!confirm("Confirma a remoção dos dados deste Orçamento?")) {
+        return;
+    }
+
+    const url = `/orcamento/${orcamento.id}/remover`;
+    router.delete(url, {
+        onSuccess: (page) => {
+            console.log(page);
+            alert("Remoção  de dados realizada com sucesso.");
+        },
+        onError: (err) => {
+            console.error(err);
+            alert("Falha ao tentar remover dados.");
+        },
+        onFinish: () => {},
+    });
+};
 </script>
 
 <template>
@@ -186,6 +212,7 @@ const updateData = () => {
                             <a
                                 class="text-red-500 hover:text-red-700 ml-3"
                                 href="#"
+                                @click="remover(orcamento)"
                             >
                                 Remover
                             </a>
