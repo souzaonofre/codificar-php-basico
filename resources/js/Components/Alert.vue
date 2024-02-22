@@ -12,9 +12,9 @@ const props = defineProps({
         required: true,
     },
     show: {
-        type: Number,
+        type: Boolean,
         required: false,
-        default: 1,
+        default: false,
     },
     timeout: {
         type: Number,

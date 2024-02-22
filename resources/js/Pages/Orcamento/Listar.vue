@@ -1,18 +1,34 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { reactive, computed } from "vue";
 import { Head } from "@inertiajs/vue3";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Filters from "./Partials/Filters.vue";
 import Table from "./Partials/Table.vue";
 import Paginator from "./Partials/Paginator.vue";
 import Alert from "../../Components/Alert.vue";
-import { onMounted, reactive } from "vue";
+import ModalForm from "./Partials/ModalForm.vue";
+import { apiSalvar, apiAtualizar, apiRemover } from "./api.js";
 
-defineProps({ view_data: Object });
+const props = defineProps({ view_data: Object });
 
+const lookupData = computed(() => {
+    return {
+        clientes: props.view_data?.modal_data?.clientes,
+        vendedores: props.view_data?.modal_data?.vendedores,
+    };
+});
+
+// Definições de variaveis de ref. reativas
+// para controle de estados internos.
 const alertData = reactive({
     type: "",
     message: "",
     timeout: 0,
+    show: false,
+});
+
+const modalFormData = reactive({
+    data: null,
     show: false,
 });
 
@@ -43,15 +59,43 @@ const hideAlert = () => {
     alertData.timeout = 0;
 };
 
-// Definições de variaveis de ref. reativas
-// para controle de estados internos.
-const editar_show = ref(false);
+const showModalForm = (orcamento = null) => {
+    modalFormData.data = orcamento;
+    modalFormData.show = true;
+};
+
+const hideModalForm = () => {
+    modalFormData.data = null;
+    modalFormData.show = false;
+};
 
 // onMounted(() => {
 //     showAlert("teste", "info", 10);
 // });
 
-// Envia dados ao backend para atualizar Orcamento
+// Envia dados ao backend para criar um Orcamento
+const saveData = (formData = null) => {
+    if (typeof formData !== "object" || Object.keys(formData).length == 0) {
+        console.error("saveData: param. formData invalido", [typeof id]);
+        return;
+    }
+
+    apiSalvar(formData, {
+        onSuccess: (page) => {
+            console.log(page);
+            showAlert("Dados salvos com sucesso.", "success");
+        },
+        onError: (err) => {
+            console.error(err);
+            showAlert("Falha ao tentar salvar dados.", "error");
+        },
+        onFinish: () => {
+            editar_show.value = false;
+        },
+    });
+};
+
+// Envia dados ao backend para atualizar um Orcamento
 const updateData = (id = null, formData = null) => {
     if (Number.isNaN(parseInt(id)) || id <= 0) {
         console.error("updateData: param. id invalido", [typeof id]);
@@ -63,9 +107,7 @@ const updateData = (id = null, formData = null) => {
         return;
     }
 
-    const url = `/orcamento/${id}/atulizar`;
-
-    router.put(url, formData, {
+    apiAtualizar(id, formData, {
         onSuccess: (page) => {
             console.log(page);
             showAlert("Atualização realizada com sucesso.", "success");
@@ -75,13 +117,12 @@ const updateData = (id = null, formData = null) => {
             showAlert("Falha ao tentar atualizar dados.", "error");
         },
         onFinish: () => {
-            disable_salvar.value = false;
             editar_show.value = false;
         },
     });
 };
 
-// Envia dados ao backend para remover Orcamento
+// Envia dados ao backend para remover um Orcamento
 const removeData = (id = null) => {
     if (Number.isNaN(parseInt(id)) || id <= 0) {
         console.error("removeData: param. id invalido", [typeof id]);
@@ -97,9 +138,7 @@ const removeData = (id = null) => {
         return;
     }
 
-    const url = `/orcamento/${id}/remover`;
-
-    router.delete(url, {
+    apiRemover(id, {
         onSuccess: (page) => {
             console.log(page);
             showAlert("Remoção  de dados realizada com sucesso.", "success");
@@ -143,11 +182,10 @@ const removeData = (id = null) => {
                             <div class="overflow-x-auto">
                                 <Filters />
                                 <Table
-                                    v-bind:table_data="view_data.data"
-                                    v-bind:modal_editar_data="
-                                        view_data.modal_data ?? {}
-                                    "
+                                    v-bind:table_data="props.view_data.data"
                                     v-on:alert="showAlert"
+                                    v-on:editar="showModalForm"
+                                    v-on:remover="removeData"
                                 />
                                 <Paginator :paginator_data="view_data" />
                             </div>
@@ -156,5 +194,15 @@ const removeData = (id = null) => {
                 </div>
             </div>
         </div>
+
+        <ModalForm
+            v-bind:orcamento-data="modalFormData.data"
+            v-bind:lookup-data="lookupData"
+            v-bind:show="modalFormData.show"
+            v-on:save="saveData"
+            v-on:update="updateData"
+            v-on:close="hideModalForm"
+            v-on:alert="showAlert"
+        />
     </AuthenticatedLayout>
 </template>

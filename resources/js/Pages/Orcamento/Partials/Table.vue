@@ -1,6 +1,6 @@
 <script setup>
 // Define as propriedades deste cpte.
-const props = defineProps({ table_data: Object, modal_editar_data: Object });
+const props = defineProps({ table_data: Object });
 
 // Define emissao de eventos deste cpte.
 const emitEvent = defineEmits(["editar", "remover"]);
@@ -24,7 +24,7 @@ const remover = function (orcamento) {
     ) {
         return;
     }
-    emitEvent("remover", orcamento);
+    emitEvent("remover", orcamento.id);
 };
 </script>
 
