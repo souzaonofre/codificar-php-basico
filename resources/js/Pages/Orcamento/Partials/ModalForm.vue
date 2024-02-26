@@ -33,6 +33,7 @@ const emitEvent = defineEmits(["save", "update", "close", "alert"]);
 
 const currAction = ref("save");
 const disableSalvar = ref(false);
+const idOrcamento = ref(null);
 
 const showStatus = computed(() => props.show);
 
@@ -56,14 +57,14 @@ const loadFormData = (dados = {}) => {
 };
 
 const sendEvent = () => {
-    if (currAction.value !== "save") {
+    if (currAction.value === "save") {
         emitEvent("save", formData);
         emitEvent("close");
         return;
     }
 
-    if (currAction.value !== "update") {
-        emitEvent("update", orcamentoData.id, formData);
+    if (currAction.value === "update") {
+        emitEvent("update", idOrcamento.value, formData);
         emitEvent("close");
         return;
     }
@@ -82,9 +83,11 @@ watch(showStatus, (value) => {
             Object.keys(props.orcamentoData).length > 0
         ) {
             loadFormData(props.orcamentoData);
+            idOrcamento.value = props.orcamentoData.id;
             currAction.value = "update";
         } else {
             loadFormData(nullFormData);
+            idOrcamento.value = null;
             currAction.value = "save";
         }
     }

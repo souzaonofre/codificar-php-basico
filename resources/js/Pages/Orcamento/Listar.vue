@@ -43,12 +43,11 @@ const showAlert = (message = "", type = "info", timeout = 0) => {
     }
     alertData.type = type;
     alertData.message = message;
-    if (timeout > 0) {
-        timeout = Number.parseInt(timeout, 10) * 1000;
-        setTimeout(() => {
-            alertData.show = false;
-        }, timeout);
-    }
+    timeout = timeout == 0 ? 3 : timeout;
+    timeout = Number.parseInt(timeout, 10) * 1000;
+    setTimeout(() => {
+        alertData.show = false;
+    }, timeout);
     alertData.show = true;
 };
 
@@ -90,7 +89,7 @@ const saveData = (formData = null) => {
             showAlert("Falha ao tentar salvar dados.", "error");
         },
         onFinish: () => {
-            editar_show.value = false;
+            hideModalForm();
         },
     });
 };
@@ -117,7 +116,7 @@ const updateData = (id = null, formData = null) => {
             showAlert("Falha ao tentar atualizar dados.", "error");
         },
         onFinish: () => {
-            editar_show.value = false;
+            hideModalForm();
         },
     });
 };
