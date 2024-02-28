@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed } from "vue";
+import { reactive, computed, onMounted, ref } from "vue";
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Filters from "./Partials/Filters.vue";
@@ -72,6 +72,13 @@ const hideModalForm = () => {
 //     showAlert("teste", "info", 10);
 // });
 
+const disableNewButton = ref(false);
+
+const newData = () => {
+    disableNewButton.value = true;
+    showModalForm();
+};
+
 // Envia dados ao backend para criar um Orcamento
 const saveData = (formData = null) => {
     if (typeof formData !== "object" || Object.keys(formData).length == 0) {
@@ -90,6 +97,7 @@ const saveData = (formData = null) => {
         },
         onFinish: () => {
             hideModalForm();
+            disableNewButton.value = false;
         },
     });
 };
@@ -149,6 +157,10 @@ const removeData = (id = null) => {
         onFinish: () => {},
     });
 };
+
+onMounted(() => {
+    disableNewButton.value = false;
+});
 </script>
 
 <template>
@@ -179,7 +191,10 @@ const removeData = (id = null) => {
                     <div class="p-6 text-gray-900">
                         <div class="flex flex-col">
                             <div class="overflow-x-auto">
-                                <Filters />
+                                <Filters
+                                    v-on:new="showModalForm"
+                                    v-bind:disable-button="disableNewButton"
+                                />
                                 <Table
                                     v-bind:table_data="props.view_data.data"
                                     v-on:alert="showAlert"

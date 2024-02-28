@@ -40,6 +40,8 @@ const showStatus = computed(() => props.show);
 // Estrutura de dados especializada para
 // o formulario editar Orcamento
 const nullFormData = {
+    data: null,
+    hora: null,
     id_vendedor: null,
     id_cliente: null,
     descricao: null,
@@ -64,6 +66,8 @@ const sendEvent = () => {
     }
 
     if (currAction.value === "update") {
+        delete formData.data;
+        delete formData.hora;
         emitEvent("update", idOrcamento.value, formData);
         emitEvent("close");
         return;
@@ -100,10 +104,33 @@ watch(showStatus, (value) => {
         <div class="container mx-auto p-4">
             <div class="bg-white p-8 rounded shadow-md max-w-md mx-auto">
                 <h2 class="text-2xl font-bold text-blue-500 mb-6">
-                    Editar Orçamento
+                    {{ currAction == "save" ? "Novo" : "Editar" }}
+                    Orçamento
                 </h2>
                 <!-- <div>{{ orcamento_data }}</div> -->
                 <form>
+                    <FormInputControl
+                        type="date"
+                        tabindex="4"
+                        id="inputValor"
+                        name="data"
+                        label="Data"
+                        placeholder=""
+                        :has-error="false"
+                        v-model="formData.data"
+                        v-if="currAction == 'save'"
+                    />
+                    <FormInputControl
+                        type="time"
+                        tabindex="4"
+                        id="inputValor"
+                        name="hora"
+                        label="Hora"
+                        placeholder=""
+                        :has-error="false"
+                        v-model="formData.hora"
+                        v-if="currAction == 'save'"
+                    />
                     <FormSelectControl
                         autofocus="autofocus"
                         tabindex="1"
