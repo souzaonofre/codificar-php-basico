@@ -40,8 +40,8 @@ const showStatus = computed(() => props.show);
 // Estrutura de dados especializada para
 // o formulario editar Orcamento
 const nullFormData = {
-    data: null,
-    hora: null,
+    data_orc: null,
+    hora_orc: null,
     id_vendedor: null,
     id_cliente: null,
     descricao: null,
@@ -66,8 +66,8 @@ const sendEvent = () => {
     }
 
     if (currAction.value === "update") {
-        delete formData.data;
-        delete formData.hora;
+        // delete formData.data;
+        // delete formData.hora;
         emitEvent("update", idOrcamento.value, formData);
         emitEvent("close");
         return;
@@ -91,6 +91,14 @@ watch(showStatus, (value) => {
             currAction.value = "update";
         } else {
             loadFormData(nullFormData);
+            const dateTimeNow = String(
+                new Date().toLocaleString("pt-BR")
+            ).split(",");
+            const timeSlices = String(dateTimeNow[1]).split(":");
+            formData.data_orc = String(dateTimeNow[0]);
+            formData.hora_orc = String(timeSlices[0])
+                .concat(":")
+                .concat(timeSlices[1]);
             idOrcamento.value = null;
             currAction.value = "save";
         }
@@ -110,25 +118,29 @@ watch(showStatus, (value) => {
                 <!-- <div>{{ orcamento_data }}</div> -->
                 <form>
                     <FormInputControl
-                        type="date"
+                        type="text"
                         tabindex="4"
                         id="inputValor"
                         name="data"
                         label="Data"
-                        placeholder=""
+                        maxlength="10"
+                        minlength="10"
+                        placeholder="dd/mm/aaaa"
                         :has-error="false"
-                        v-model="formData.data"
+                        v-model="formData.data_orc"
                         v-if="currAction == 'save'"
                     />
                     <FormInputControl
-                        type="time"
+                        type="text"
                         tabindex="4"
                         id="inputValor"
                         name="hora"
                         label="Hora"
-                        placeholder=""
+                        maxlength="5"
+                        minlength="5"
+                        placeholder="hh:mm"
                         :has-error="false"
-                        v-model="formData.hora"
+                        v-model="formData.hora_orc"
                         v-if="currAction == 'save'"
                     />
                     <FormSelectControl

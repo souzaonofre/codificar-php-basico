@@ -106,6 +106,8 @@ class OrcamentoService
      */
     public function salvarOrcamento(Request $request) : bool {
         $createData = $request->all(['id_vendedor', 'id_cliente', 'descricao', 'valor']);
+        $createData['data'] = $request->get('data_orc');
+        $createData['hora'] = $request->get('hora_orc');
         return Orcamento::query()->create($createData)->exists();
     }
 

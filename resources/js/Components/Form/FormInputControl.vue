@@ -28,6 +28,14 @@ const props = defineProps({
         required: false,
         default: "",
     },
+    maxlength: {
+        type: Number,
+        required: false,
+    },
+    minlength: {
+        type: Number,
+        required: false,
+    },
     placeholder: {
         type: String,
         required: false,
@@ -96,6 +104,8 @@ defineEmits(["update:modelValue"]);
                 v-bind:id="id"
                 v-bind:type="type"
                 v-bind:name="name"
+                v-bind:maxlength="maxlength"
+                v-bind:minlength="minlength"
                 v-bind:placeholder="placeholder"
                 v-bind:title="title"
                 v-bind:disabled="disabled"
